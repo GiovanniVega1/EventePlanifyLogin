@@ -2,6 +2,7 @@ package Planify.Project.User;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +41,26 @@ public class UserService {
             return userDTO;
         }
         return null;
+    }
+
+    @Transactional
+    public UserResponse upgradeToHost(Integer id) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("Usuario no encontrado con ID: " + id);
+        }
+
+        User user = userOptional.get();
+
+        if (user.getRole() == Role.USER) {
+            user.setRole(Role.HOST);
+            userRepository.save(user);
+            return new UserResponse("El usuario ha sido ascendido a HOST satisfactoriamente.");
+        } else if (user.getRole() == Role.HOST) {
+            return new UserResponse("El usuario ya es un HOST.");
+        } else {
+            return new UserResponse("El rol actual del usuario no permite el ascenso a HOST.");
+        }
     }
 }

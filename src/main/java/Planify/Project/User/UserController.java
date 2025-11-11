@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,5 +34,15 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest userRequest)
     {
         return ResponseEntity.ok(userService.updateUser(userRequest));
+    }
+
+    @PostMapping(value = "upgrade-to-host/{id}")
+    public ResponseEntity<UserResponse> upgradeToHost(@PathVariable Integer id) {
+        try {
+            UserResponse response = userService.upgradeToHost(id);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException ex) {
+            throw ex; 
+        }
     }
 }
