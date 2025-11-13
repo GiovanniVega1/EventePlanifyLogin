@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 
+
 @Service
 @RequiredArgsConstructor
 
@@ -37,10 +38,25 @@ public class UserService {
                     .firstname(user.firstname)
                     .lastname(user.lastname)
                     .country(user.country)
+                    .role(user.getRole())
                     .build();
             return userDTO;
         }
         return null;
+    }
+
+    public UserDTO getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado con Username: " + username));
+
+        return UserDTO.builder()
+                .id(user.id)
+                .username(user.username)
+                .firstname(user.firstname)
+                .lastname(user.lastname)
+                .country(user.country)
+                .role(user.getRole())
+                .build();
     }
 
     @Transactional
