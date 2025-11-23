@@ -18,11 +18,11 @@ public class UserService {
                 .id(userRequest.id)
                 .firstname(userRequest.getFirstname())
                 .lastname(userRequest.lastname)
-                .country(userRequest.getCountry())
+                .phone(userRequest.getPhone())
                 .role(Role.USER)
                 .build();
 
-        userRepository.updateUser(user.id, user.firstname, user.lastname, user.country);
+        userRepository.updateUser(user.id, user.firstname, user.lastname, user.phone);
 
         return new UserResponse("El usuario se registró satisfactoriamente");
     }
@@ -37,7 +37,7 @@ public class UserService {
                     .username(user.username)
                     .firstname(user.firstname)
                     .lastname(user.lastname)
-                    .country(user.country)
+                    .phone(user.phone)
                     .role(user.getRole())
                     .build();
             return userDTO;
@@ -54,7 +54,7 @@ public class UserService {
                 .username(user.username)
                 .firstname(user.firstname)
                 .lastname(user.lastname)
-                .country(user.country)
+                .phone(user.phone)
                 .role(user.getRole())
                 .build();
     }
